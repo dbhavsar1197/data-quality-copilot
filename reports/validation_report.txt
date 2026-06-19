@@ -1,0 +1,9 @@
+Validation Report - 2026-06-19
+
+DQ001 FAILED
+34 records have null customer_id
+
+DQ002 PASSED
+
+DQ003 FAILED
+12 records have invalid status values

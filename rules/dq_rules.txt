@@ -1,0 +1,5 @@
+DQ001 - customer_id cannot be null
+
+DQ002 - email must be unique
+
+DQ003 - status must be Active or Inactive

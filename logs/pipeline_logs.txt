@@ -1,0 +1,7 @@
+02:00 Pipeline Started
+
+02:10 Customer Load Complete
+
+02:11 Validation Started
+
+02:12 Validation Failed
