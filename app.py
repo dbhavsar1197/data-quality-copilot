@@ -1,4 +1,13 @@
 import streamlit as st
+from utils.report_reader import read_report
+from utils.rule_loader import load_rules
+
+#-------------
+# Load Rules 
+#-------------
+rule_dict = load_rules()
+
+
 # ----------------------------------
 # Page Configuration
 # ----------------------------------
@@ -17,29 +26,24 @@ uploaded_file = st.file_uploader(
     )
 
 # ----------------------------------
-
 # Read Validation Report
-
 # ----------------------------------
-
-if uploaded_file is None:
+report_lines = read_report(uploaded_file)
+if report_lines is None:
     st.info("Please upload a validation report to continue.")
     st.stop()
-
-report_lines = uploaded_file.getvalue().decode("utf-8").splitlines()
+#st.write(type(uploaded_file))
 # ----------------------------------
-
 # Read DQ Rules
-
 # ----------------------------------
 
-rule_dict = {}
+#rule_dict = {}
 
-with open("rules/dq_rules.txt", "r") as f:
-    for line in f:
-        if "-" in line:
-            rule_id, description = line.split("-", 1)
-            rule_dict[rule_id.strip()] = description.strip()
+#with open("rules/dq_rules.txt", "r") as f:
+ #   for line in f:
+  #      if "-" in line:
+   #         rule_id, description = line.split("-", 1)
+    #        rule_dict[rule_id.strip()] = description.strip()
 # ----------------------------------
 
 # Parse Validation Report
@@ -116,7 +120,7 @@ else:
         st.success(
         f"Overall Data Quality Score: "
         f"{overall_data_quality_score:.2f}%")
-st.write(uploaded_file)        
+#st.write(uploaded_file)        
 
 # ----------------------------------
 
