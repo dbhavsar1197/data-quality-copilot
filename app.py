@@ -7,18 +7,17 @@ st.set_page_config(
 #--- Title ----
 st.title("Data quality Copilot")
 #---------User input text box and reutrn ----------
-question = st.text_input("Ask your data quality question here:")
-
-if question: 
-    st.write(f"You asked: {question}")
+#question = st.text_input("Ask your data quality question here:")
+#if question: 
+#  st.write(f"You asked: {question}")
 #---------Read the report file and count the passed and failed rules ----
 with open("reports/validation_report.txt", "r") as f:
     report_lines = f.readlines()
-
 passed = 0
 failed = 0
 failed_rules = []
 rule_dict ={}
+#--- Read DQ Rules ----
 with open("rules/dq_rules.txt") as f:  
     for line in f:
         if "-" in line: 
@@ -34,8 +33,10 @@ for line in report_lines:
         failed_rules.append(line.split()[0])
 #rule_dict["DQ001"]            
 #--output ---
-st.write(f"Passed Rules: {passed}")
-st.write(f"Failed Rules: {failed}")
+st.subheader("Data Quality Report Summary")
+st.write(f"Total Passsed rules :{passed} and Total faield Rules: {failed} as per the report parsed")
+
+#st.write(f"Failed Rules: {failed}")
 st.subheader("Failed Rule IDs")
 for rule in failed_rules:
     st.write(f"{rule}-{rule_dict.get(rule,'Description not found')}")
