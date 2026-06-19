@@ -22,12 +22,11 @@ uploaded_file = st.file_uploader(
 
 # ----------------------------------
 
-if uploaded_file is not None:
-    report_lines = uploaded_file.getvalue().decode("utf-8").splitlines()
-else:
-    with open("reports/validation_report.txt", "r") as f:
-        report_lines = f.readlines()
+if uploaded_file is None:
+    st.info("Please upload a validation report to continue.")
+    st.stop()
 
+report_lines = uploaded_file.getvalue().decode("utf-8").splitlines()
 # ----------------------------------
 
 # Read DQ Rules
@@ -46,7 +45,6 @@ with open("rules/dq_rules.txt", "r") as f:
 # Parse Validation Report
 
 # ----------------------------------
-
 passed = 0
 failed = 0
 
@@ -56,17 +54,24 @@ failed_rule_details = {}
 current_rule = None
 
 for line in report_lines:
+
     line = line.strip()
+
     if line.startswith("DQ"):
+
         current_rule = line.split()[0]
+
         if "PASSED" in line:
             passed += 1
+
         elif "FAILED" in line:
             failed += 1
-        failed_rules.append(current_rule)
-    elif current_rule and line:
-        failed_rule_details[current_rule] = line
+            failed_rules.append(current_rule)
 
+    elif current_rule and line:
+
+        if current_rule in failed_rules:
+            failed_rule_details[current_rule] = line
 # ----------------------------------
 
 # Metrics
@@ -111,6 +116,8 @@ else:
         st.success(
         f"Overall Data Quality Score: "
         f"{overall_data_quality_score:.2f}%")
+st.write(uploaded_file)        
+
 # ----------------------------------
 
 # Tabs
